@@ -13,7 +13,7 @@ export default function useTypingTest() {
   const [state, setState] = useState<State>("start");
   const { words, updateWords } = useWords(NUMBER_OF_WORDS);
   const { timeLeft, startTimer, resetTimer } = useTimer(TIMER_SECONDS);
-  const { cursorPosition, typed, clearTyped, totalTyped } = useKeys(
+  const { cursorPosition, typed, clearTyped, totalTyped, clearTotalTyped } = useKeys(
     state !== "end"
   );
   const [errors, setErrors] = useState(0);
@@ -64,7 +64,8 @@ export default function useTypingTest() {
     setErrors(0);
     updateWords();
     clearTyped();
-  }, [clearTyped, updateWords, resetTimer]);
+    clearTotalTyped()
+  }, [clearTotalTyped, clearTyped, updateWords, resetTimer]);
 
   return { state, words, timeLeft, typed, errors, totalTyped, restartGame };
 }

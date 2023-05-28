@@ -12,6 +12,7 @@ function isKeyAllowed(code: string) {
 export default function useKeys(enabled: boolean) {
   const [cursorPosition, setCursorPosition] = useState(0);
   const [typed, setTyped] = useState<string>("");
+  const [totalTyped, setTotalTyped] = useState<number>(0);
 
   const keydownHandler = useCallback(
     ({ key, code }: KeyboardEvent) => {
@@ -23,10 +24,12 @@ export default function useKeys(enabled: boolean) {
         case "Backspace":
           setTyped((prev) => prev.slice(0, -1));
           setCursorPosition((prev) => prev - 1);
+          setTotalTyped((prev) => prev - 1);
           break;
         default:
           setTyped((prev) => prev.concat(key));
           setCursorPosition((prev) => prev + 1);
+          setTotalTyped((prev) => prev + 1);
       }
     },
     [enabled]
@@ -37,6 +40,10 @@ export default function useKeys(enabled: boolean) {
     setCursorPosition(0);
   }, []);
 
+  const clearTotalTyped = useCallback(() => {
+    setTotalTyped(0);
+  }, []);
+
   useEffect(() => {
     window.addEventListener("keydown", keydownHandler);
 
@@ -45,5 +52,5 @@ export default function useKeys(enabled: boolean) {
     };
   }, [keydownHandler]);
 
-  return { cursorPosition, typed, clearTyped, totalTyped: typed.length };
+  return { cursorPosition, typed, clearTyped, totalTyped, clearTotalTyped };
 }
