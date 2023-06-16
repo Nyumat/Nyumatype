@@ -34,7 +34,7 @@ export default function useTypingTest() {
 
   useEffect(() => {
     if (!timeLeft && state === "run") {
-      console.log("Time's up");
+      console.log("[useTypingTest/timeLeft]: Time's up!");
       setState("end");
       sumErrors();
     }
