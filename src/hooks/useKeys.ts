@@ -1,11 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
+import { dvorakMap, qwertyMap } from '../lib/layouts';
 
-function isKeyAllowed(code: string) {
+function isKeyAllowed(code: string, k: string) {
+  const corresponding = dvorakMap[k];
+  const allowed = Object.keys(qwertyMap);
   return (
     code.startsWith("Key") ||
     code.startsWith("Digit") ||
     code === "Backspace" ||
-    code === "Space"
+    code === "Space" ||
+    allowed.includes(corresponding)
   );
 }
 
@@ -16,7 +20,7 @@ export default function useKeys(enabled: boolean) {
 
   const keydownHandler = useCallback(
     ({ key, code }: KeyboardEvent) => {
-      if (!enabled || !isKeyAllowed(code)) {
+      if (!enabled || !isKeyAllowed(code, key)) {
         return;
       }
 

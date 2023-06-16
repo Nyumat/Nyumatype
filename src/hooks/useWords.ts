@@ -2,10 +2,8 @@ import { faker } from "@faker-js/faker";
 import { useCallback, useState } from "react";
 
 function generateWords(count: number) {
-      // This is deprecated, but I like the words it generates better.
-      return faker.random.words(count).toLowerCase()
       // This is the new way to generate words.
-      // return faker.word.words(count).toLowerCase();
+      return faker.word.words(count).toLowerCase();
 }
 
 export default function useWords(count: number) {
